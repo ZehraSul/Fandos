@@ -1,27 +1,27 @@
 import React from "react";
 import MenuItem from "./MenuItem";
-import FakeMenu from "./FakeMenu";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import MenuImages from "./MenuImages";
 
-function Menu() {
+function Menu({ displayMenu }) {
   return (
-    <div>
-      <Row>
-        {FakeMenu.map((item) => {
-          return (
-            <Col className="col-auto">
-              <MenuItem
-                name={item.name}
-                price={item.price}
-                image={item.image}
-                description={item.description}
-              />
-            </Col>
-          );
-        })}
-      </Row>
-    </div>
+    <Row>
+      {displayMenu.map((item) => {
+        return (
+          <Col className="col-auto">
+            <MenuItem
+              id={item._id}
+              name={item.name}
+              price={item.price}
+              image={item.imageName}
+              description={item.description}
+              menuImages={MenuImages}
+            />
+          </Col>
+        );
+      })}
+    </Row>
   );
 }
 

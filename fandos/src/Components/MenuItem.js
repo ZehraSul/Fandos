@@ -4,22 +4,28 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-function MenuItem({ name, price, image, description }) {
+function MenuItem({ id, name, price, image, description, menuImages }) {
   const AddToCartHandler = (e) => {
-    console.log(e);
+    console.log(e.target.attributes[1]);
   };
+
   return (
     <div style={{ padding: "50px", marginRight: "auto" }}>
       <Card style={{ width: "300px" }}>
-        <Card.Img variant="top" src={image} />
+        <img variant="top" src={menuImages[image]} />
         <Card.Body>
           <Card.Title>{name}</Card.Title>
           <Card.Text>{description}</Card.Text>
+          <Card.Text>{id}</Card.Text>
         </Card.Body>
         <Card.Footer>
           <Row>
             <Col>
               <Button
+                type="submit"
+                // ZEHRA
+                item={name}
+                price={price}
                 style={{ borderRadius: "50px" }}
                 variant="danger"
                 onClick={AddToCartHandler}

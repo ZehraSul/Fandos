@@ -1,15 +1,20 @@
 import "./App.css";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./Components/Login";
-import Main from "./Components/Main";
+import Menu from "./Components/Menu";
 import Register from "./Components/Register";
+import LandingPage from "./Components/LandingPage";
 import { useState, useEffect } from "react";
 import Navbar from "./Components/Navbar";
+import { FANDOS_API_URL } from "./config/config";
+import OrderHistory from "./Components/OrderHistory";
+import Cart from "./Components/Cart";
 
 function App() {
   let [isLoggedIn, setIsLoggedIn] = useState(false);
-  let [showRegisterPage, setShowRegisterPage] = useState(false);
   let [userToken, setUserToken] = useState("");
-  let [orderHistory, setOrderHistory] = useState([]);
+  let [prevOrders, setPrevOrders] = useState([]);
+  let [displayMenu, setDisplayMenu] = useState([]);
 
   /* Using useEffect to make the initial call to my api to display menu*/
   useEffect(() => {
@@ -21,7 +26,26 @@ function App() {
     }
     // if user is logged in display all their tasks
     if (userToken) {
-      // TODO: Load Menu
+      fetch(`${FANDOS_API_URL}/menu/displayAll`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          // Uses token for authorization
+          Authorization: "Bearer " + userToken,
+        },
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then(
+          (data) => {
+            setDisplayMenu(data);
+            console.log(data);
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
     }
   }, [userToken]);
 
@@ -32,23 +56,65 @@ function App() {
         isLoggedIn={isLoggedIn}
         setIsLoggedIn={setIsLoggedIn}
       />
-      {isLoggedIn === true ? (
-        <Main setUserToken={setUserToken} isLoggedIn={isLoggedIn} />
-      ) : showRegisterPage ? (
-        <Register
-          setIsLoggedIn={setIsLoggedIn}
-          setShowRegisterPage={setShowRegisterPage}
-          setUserToken={setUserToken}
+
+      <Routes>
+        <Route path="/" element={<LandingPage isLoggedIn={isLoggedIn} />} />
+        <Route
+          path="menu"
+          element={
+            <PrivateRoute>
+              <Menu displayMenu={displayMenu} />
+            </PrivateRoute>
+          }
         />
-      ) : (
-        <Login
-          setIsLoggedIn={setIsLoggedIn}
-          setShowRegisterPage={setShowRegisterPage}
-          setUserToken={setUserToken}
+        <Route
+          path="login"
+          element={
+            <Login setIsLoggedIn={setIsLoggedIn} setUserToken={setUserToken} />
+          }
         />
-      )}
+        <Route
+          path="register"
+          element={
+            <Register
+              setIsLoggedIn={setIsLoggedIn}
+              setUserToken={setUserToken}
+            />
+          }
+        />
+        <Route
+          path="orderhistory"
+          element={
+            <PrivateRoute>
+              <OrderHistory
+                prevOrders={prevOrders}
+                setPrevOrders={setPrevOrders}
+                setUserToken={setUserToken}
+                userToken={userToken}
+              />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="cart"
+          element={
+            <PrivateRoute>
+              <Cart />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
     </div>
   );
+}
+
+function useAuth() {
+  let token = localStorage.getItem("token");
+  return token;
+}
+
+function PrivateRoute({ children }) {
+  return useAuth() ? children : <Navigate to="/login" />;
 }
 
 export default App;

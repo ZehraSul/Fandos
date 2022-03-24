@@ -1,8 +1,8 @@
 import React from "react";
 import Carousel from "react-bootstrap/Carousel";
-import Pic1 from "../images/atharva-tulsi-Yh9Ut4d3K0A-unsplash.jpg";
-import Pic2 from "../images/daniel-hooper-PaaboPF3dVY-unsplash.jpg";
-import Pic3 from "../images/evan-wise-D99y38Na5Xo-unsplash.jpg";
+import Pic1 from "../images/full-chicken.jpg";
+import Pic2 from "../images/half-chicken.jpg";
+import Pic3 from "../images/quarter-chicken.jpg";
 
 function CarouselPromo() {
   return (

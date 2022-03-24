@@ -4,8 +4,9 @@ import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import "../css/Register.css";
 import { FANDOS_API_URL } from "../config/config";
+import { Link, useNavigate } from "react-router-dom";
 
-function Register({ setIsLoggedIn, setShowRegisterPage, setUserToken }) {
+function Register({ setIsLoggedIn, setUserToken, navigate }) {
   let [emailAddress, setEmailAddress] = useState("");
   let [password, setPassword] = useState("");
   let [confirmPassword, setConfirmPassword] = useState("");
@@ -41,6 +42,7 @@ function Register({ setIsLoggedIn, setShowRegisterPage, setUserToken }) {
               setUserToken(res.token);
               localStorage.setItem("token", res.token);
               setIsLoggedIn(true);
+              navigate("/menu");
             } else {
               // if either the username o password are incorrect show can error
               alert("Registration Failed!");
@@ -57,11 +59,6 @@ function Register({ setIsLoggedIn, setShowRegisterPage, setUserToken }) {
     } else {
       alert("Required fields are not populated!");
     }
-  };
-
-  const onLoginButtonHandler = (e) => {
-    e.preventDefault();
-    setShowRegisterPage(false);
   };
 
   return (
@@ -101,7 +98,7 @@ function Register({ setIsLoggedIn, setShowRegisterPage, setUserToken }) {
       </Form>
       <div className="py-5">
         <h2>Been here before ...</h2>
-        <Button variant="outline-danger" onClick={onLoginButtonHandler}>
+        <Button variant="outline-danger" as={Link} to="/login">
           Login?
         </Button>
       </div>
@@ -109,4 +106,9 @@ function Register({ setIsLoggedIn, setShowRegisterPage, setUserToken }) {
   );
 }
 
-export default Register;
+function WithNavigate(props) {
+  let navigate = useNavigate();
+  return <Register {...props} navigate={navigate} />;
+}
+
+export default WithNavigate;

@@ -62,10 +62,13 @@ app.use(function (req, res, next) {
 });
 
 // Routes
-// require("./routes/create.js")(app);
-// require("./routes/delete.js")(app);
 require("./routes/menu/displayAll.js")(app);
+require("./routes/menu/create.js")(app);
+require("./routes/menu/delete.js")(app);
+
 require("./routes/orders/displayAll.js")(app);
+require("./routes/orders/create.js")(app);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   var err = new Error("Not Found");

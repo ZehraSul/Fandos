@@ -1,27 +1,25 @@
 const Orders = require("../models/order.model.js");
 const Users = require("../models/user.model.js");
 
-// /* Add new task to database, pass in object with the data from the user inputs.*/
-// exports.create = function (req, res) {
-//   Users.findOne(
-//     { emailAddress: req.decodedToken.emailAddress },
-//     function (err, user) {
-//       let newTask = new Tasks({
-//         name: req.body.name,
-//         user: user,
-//       });
-//       /* If the operation errors send back an error msg if it succeeds send back the data*/
-//       newTask.save(function (err, data) {
-//         if (err) {
-//           console.log(err);
-//           res.status(500).send({ message: "An error occurred" });
-//         } else {
-//           res.send(data);
-//         }
-//       });
-//     }
-//   );
-// };
+/* Create a new order, pass in object from cart.*/
+exports.create = function (req, res) {
+  Users.findOne({ user: req.decodedToken.userId }, function (err, user) {
+    let newOrder = new Orders({
+      orderNumber: req.body.orderNumber,
+      user: user,
+      // items: req.body.items,
+    });
+    /* If the operation errors send back an error msg if it succeeds send back the data*/
+    newOrder.save(function (err, data) {
+      if (err) {
+        console.log(err);
+        res.status(500).send({ message: "An error occurred" });
+      } else {
+        res.send(data);
+      }
+    });
+  });
+};
 
 /* Display all the orders */
 exports.displayAll = function (req, res) {

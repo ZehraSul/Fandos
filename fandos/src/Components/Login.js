@@ -2,10 +2,11 @@ import React from "react";
 import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { Link, useNavigate } from "react-router-dom";
 import "../css/Login.css";
 import { FANDOS_API_URL } from "../config/config";
 
-function Login({ setIsLoggedIn, setShowRegisterPage, setUserToken }) {
+function Login({ setIsLoggedIn, setUserToken, navigate }) {
   let [emailAddress, setEmailAddress] = useState("");
   let [password, setPassword] = useState("");
 
@@ -34,6 +35,7 @@ function Login({ setIsLoggedIn, setShowRegisterPage, setUserToken }) {
               setUserToken(res.token);
               localStorage.setItem("token", res.token);
               setIsLoggedIn(true);
+              navigate("/menu");
             } else {
               // if either the username o password are incorrect show can error
               alert("Login Failed!");
@@ -48,11 +50,6 @@ function Login({ setIsLoggedIn, setShowRegisterPage, setUserToken }) {
     } else {
       alert("Required fields are not populated!");
     }
-  };
-
-  const onSignUpButtonHandler = (e) => {
-    e.preventDefault();
-    setShowRegisterPage(true);
   };
 
   return (
@@ -79,12 +76,12 @@ function Login({ setIsLoggedIn, setShowRegisterPage, setUserToken }) {
           />
         </Form.Group>
         <Button variant="danger" onClick={loginHandler}>
-          Submit
+          Login
         </Button>
       </Form>
       <div className="py-5">
         <h2>New around here? </h2>
-        <Button variant="outline-danger" onClick={onSignUpButtonHandler}>
+        <Button as={Link} variant="outline-danger" to="/register">
           Sign Up?
         </Button>
       </div>
@@ -92,4 +89,9 @@ function Login({ setIsLoggedIn, setShowRegisterPage, setUserToken }) {
   );
 }
 
-export default Login;
+function WithNavigate(props) {
+  let navigate = useNavigate();
+  return <Login {...props} navigate={navigate} />;
+}
+
+export default WithNavigate;
