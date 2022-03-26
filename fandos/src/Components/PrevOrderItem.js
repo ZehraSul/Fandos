@@ -8,13 +8,13 @@ function PrevOrderItem({ orderNumber, items, date }) {
     <div>
       <Row>
         <Col>{orderNumber}</Col>
-        {/*  ZEHRA listing multiple items from an array*/}
-
-        {/*   {items.map((item) => {
-          <Col>{item.name}</Col>;
-        })} */}
-
-        <Col>{date}</Col>
+        {/* ZEHRA listing multiple items from an array*/}
+        <Col>
+          {items.map((item) => {
+            return `${item.name} `;
+          })}
+        </Col>
+        ;<Col>{date}</Col>
         <Col>
           <Button>Again please!</Button>
         </Col>

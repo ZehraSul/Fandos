@@ -1,5 +1,4 @@
 const Menu = require("../models/menu.model.js");
-const Users = require("../models/user.model.js");
 
 /* Add new Menu item to database, pass in object with the data from the TODO Admin user inputs.*/
 exports.create = function (req, res) {

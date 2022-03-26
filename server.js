@@ -69,6 +69,12 @@ require("./routes/menu/delete.js")(app);
 require("./routes/orders/displayAll.js")(app);
 require("./routes/orders/create.js")(app);
 
+require("./routes/cart/create.js")(app);
+require("./routes/cart/displayAll.js")(app);
+require("./routes/cart/clear.js")(app);
+require("./routes/cart/addToCart.js")(app);
+require("./routes/cart/removeFromCart.js")(app);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   var err = new Error("Not Found");

@@ -23,7 +23,6 @@ function Register({ setIsLoggedIn, setUserToken, navigate }) {
 
     if (emailAddress && password && confirmPassword) {
       if (password === confirmPassword) {
-        console.log("Making API call");
         fetch(`${FANDOS_API_URL}/register`, {
           method: "POST",
           headers: {

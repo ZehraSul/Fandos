@@ -40,7 +40,7 @@ function App() {
         .then(
           (data) => {
             setDisplayMenu(data);
-            console.log(data);
+            // console.log(data);
           },
           (err) => {
             console.log(err);
@@ -99,7 +99,7 @@ function App() {
           path="cart"
           element={
             <PrivateRoute>
-              <Cart />
+              <Cart userToken={userToken} setUserToken={setUserToken} />
             </PrivateRoute>
           }
         />

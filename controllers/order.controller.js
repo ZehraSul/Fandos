@@ -7,7 +7,7 @@ exports.create = function (req, res) {
     let newOrder = new Orders({
       orderNumber: req.body.orderNumber,
       user: user,
-      // items: req.body.items,
+      items: req.body.items,
     });
     /* If the operation errors send back an error msg if it succeeds send back the data*/
     newOrder.save(function (err, data) {
@@ -26,7 +26,7 @@ exports.displayAll = function (req, res) {
   Orders.find({ user: req.decodedToken.userId })
     .populate("items")
     .exec(function (err, orders) {
-      console.log(orders);
+      // console.log(orders);
       if (err) {
         console.log(err);
         res.status(500).send({ message: "An error occurred." });

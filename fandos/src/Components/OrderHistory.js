@@ -25,9 +25,8 @@ function OrderHistory({ prevOrders, setPrevOrders, setUserToken, userToken }) {
         })
         .then(
           (data) => {
-            console.log(data);
             setPrevOrders(data);
-            // console.log(orderHistory);
+            // console.log(prevOrders);
           },
           (err) => {
             console.log(err);

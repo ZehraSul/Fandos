@@ -6,7 +6,7 @@ import Col from "react-bootstrap/Col";
 
 function MenuItem({ id, name, price, image, description, menuImages }) {
   const AddToCartHandler = (e) => {
-    console.log(e.target.attributes[1]);
+    console.log(id);
   };
 
   return (
@@ -23,9 +23,6 @@ function MenuItem({ id, name, price, image, description, menuImages }) {
             <Col>
               <Button
                 type="submit"
-                // ZEHRA
-                item={name}
-                price={price}
                 style={{ borderRadius: "50px" }}
                 variant="danger"
                 onClick={AddToCartHandler}
