@@ -3,17 +3,28 @@ const Users = require("../models/user.model.js");
 
 /* Add new items to cart, pass in object with the data from the user inputs.*/
 exports.create = function (req, res) {
-  Users.findOne({ user: req.decodedToken.userId }, function (err, user) {
+  Users.findOne({ _id: req.decodedToken.userId }, function (err, user) {
+    console.log(user, req.decodedToken.userId);
     let newCart = new Cart({
       user: user,
       items: req.body.items,
     });
     newCart.save(function (err, data) {
+      console.log(data);
       if (err) {
         console.log(err);
         res.status(500).send({ message: "An error has occurred" });
       } else {
-        res.send(data);
+        Cart.findOne({ _id: data._id })
+          .populate("items")
+          .exec(function (err, cart) {
+            if (err) {
+              console.log(err);
+              res.status(500).send({ message: "An error occurred" });
+            } else {
+              res.send(cart);
+            }
+          });
       }
     });
   });
@@ -40,7 +51,7 @@ exports.clearCart = function (req, res) {
   Cart.findOneAndUpdate(
     { user: req.decodedToken.userId },
     { items: [] },
-    { upsert: true },
+    { upsert: true, returnOriginal: false },
     function (err, result) {
       // Error handling
       if (err) {
@@ -48,7 +59,7 @@ exports.clearCart = function (req, res) {
         res.status(500).send({ message: "An error occurred." });
       } else {
         if (result) {
-          res.send({ msg: "Cart cleared" });
+          res.send(result);
         } else {
           res.status(400).send({ message: "Cart not found" });
         }
@@ -60,54 +71,57 @@ exports.clearCart = function (req, res) {
 exports.addToCart = function (req, res) {
   Cart.findOne({ user: req.decodedToken.userId })
     .populate("items")
-    .exec(function (err, data) {
+    .exec(function (err, cart) {
       if (err) {
         console.log(err);
         res.status(500).send({ message: "An error occurred." });
       } else {
-        Cart.updateOne(
+        Cart.findOneAndUpdate(
           { user: req.decodedToken.userId },
-          { items: [...data.items, req.body.item] },
-          { upsert: true },
-          function (err, data) {
+          { items: [...cart.items, req.body.item] },
+          { upsert: true, returnOriginal: false }
+        )
+          .populate("items")
+          .exec(function (err, data) {
             if (err) {
               console.log(err);
               res.status(500).send({ message: "An error occurred." });
             } else {
-              // console.log(data);
               res.send(data);
             }
-          }
-        );
+          });
       }
     });
 };
 
 exports.removeFromCart = function (req, res) {
-  Cart.findOne({ user: req.decodedToken.userId }, function (err, data) {
+  Cart.findOne({ user: req.decodedToken.userId }, function (err, cart) {
     if (err) {
       console.log(err);
       res.status(500).send({ message: "An error occurred." });
     } else {
-      // console.log(data);
-      Cart.updateOne(
+      Cart.findOneAndUpdate(
         { user: req.decodedToken.userId },
         {
-          items: data.items.filter(
-            (i) => i._id.toString() !== req.body.item._id
+          items: cart.items.filter(
+            (_, index) =>
+              index !==
+              cart.items.findIndex(
+                (i) => i._id.toString() === req.body.item._id
+              )
           ),
         },
-        { upsert: true },
-        function (err, data) {
+        { upsert: true, returnOriginal: false }
+      )
+        .populate("items")
+        .exec(function (err, data) {
           if (err) {
             console.log(err);
             res.status(500).send({ message: "An error occurred." });
           } else {
-            // console.log(data);
             res.send(data);
           }
-        }
-      );
+        });
     }
   });
 };

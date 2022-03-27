@@ -15,6 +15,7 @@ function App() {
   let [userToken, setUserToken] = useState("");
   let [prevOrders, setPrevOrders] = useState([]);
   let [displayMenu, setDisplayMenu] = useState([]);
+  let [cartItems, setCartItems] = useState([]);
 
   /* Using useEffect to make the initial call to my api to display menu*/
   useEffect(() => {
@@ -55,6 +56,8 @@ function App() {
         setUserToken={setUserToken}
         isLoggedIn={isLoggedIn}
         setIsLoggedIn={setIsLoggedIn}
+        setCartItems={setCartItems}
+        setPrevOrders={setPrevOrders}
       />
 
       <Routes>
@@ -63,7 +66,11 @@ function App() {
           path="menu"
           element={
             <PrivateRoute>
-              <Menu displayMenu={displayMenu} />
+              <Menu
+                displayMenu={displayMenu}
+                cartItems={cartItems}
+                setCartItems={setCartItems}
+              />
             </PrivateRoute>
           }
         />
@@ -79,6 +86,7 @@ function App() {
             <Register
               setIsLoggedIn={setIsLoggedIn}
               setUserToken={setUserToken}
+              setCartItems={setCartItems}
             />
           }
         />
@@ -99,7 +107,14 @@ function App() {
           path="cart"
           element={
             <PrivateRoute>
-              <Cart userToken={userToken} setUserToken={setUserToken} />
+              <Cart
+                userToken={userToken}
+                setUserToken={setUserToken}
+                cartItems={cartItems}
+                setCartItems={setCartItems}
+                prevOrders={prevOrders}
+                setPrevOrders={setPrevOrders}
+              />
             </PrivateRoute>
           }
         />

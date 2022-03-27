@@ -3,15 +3,19 @@ import Nav from "react-bootstrap/Nav";
 import "../css/Navbar.css";
 import { Link } from "react-router-dom";
 
-function Navbar({ setUserToken, isLoggedIn, setIsLoggedIn }) {
+function Navbar({
+  setUserToken,
+  isLoggedIn,
+  setIsLoggedIn,
+  setPrevOrders,
+  setCartItems,
+}) {
   const logoutHandler = (e) => {
     setUserToken("");
     localStorage.removeItem("token");
     setIsLoggedIn(false);
-    // setTasks([]);
-    // setUserName("");
-    // setPassword("");
-    // setInputText("");
+    setCartItems([]);
+    setPrevOrders([]);
   };
 
   return (

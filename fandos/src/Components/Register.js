@@ -6,7 +6,7 @@ import "../css/Register.css";
 import { FANDOS_API_URL } from "../config/config";
 import { Link, useNavigate } from "react-router-dom";
 
-function Register({ setIsLoggedIn, setUserToken, navigate }) {
+function Register({ setIsLoggedIn, setUserToken, navigate, setCartItems }) {
   let [emailAddress, setEmailAddress] = useState("");
   let [password, setPassword] = useState("");
   let [confirmPassword, setConfirmPassword] = useState("");
@@ -18,9 +18,6 @@ function Register({ setIsLoggedIn, setUserToken, navigate }) {
 
   const registerHandler = (e) => {
     e.preventDefault();
-
-    // TODO: Validate email
-
     if (emailAddress && password && confirmPassword) {
       if (password === confirmPassword) {
         fetch(`${FANDOS_API_URL}/register`, {
@@ -41,7 +38,7 @@ function Register({ setIsLoggedIn, setUserToken, navigate }) {
               setUserToken(res.token);
               localStorage.setItem("token", res.token);
               setIsLoggedIn(true);
-              navigate("/menu");
+              createCart(res.token);
             } else {
               // if either the username o password are incorrect show can error
               alert("Registration Failed!");
@@ -57,6 +54,36 @@ function Register({ setIsLoggedIn, setUserToken, navigate }) {
       }
     } else {
       alert("Required fields are not populated!");
+    }
+  };
+
+  const createCart = (token) => {
+    if (token) {
+      console.log(token);
+      fetch(`${FANDOS_API_URL}/cart/create`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          // Uses token for authorization
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+          items: [],
+        }),
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then(
+          (_) => {
+            setCartItems([]);
+            navigate("/menu");
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
     }
   };
 

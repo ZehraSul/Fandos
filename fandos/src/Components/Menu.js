@@ -4,7 +4,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import MenuImages from "./MenuImages";
 
-function Menu({ displayMenu }) {
+function Menu({ displayMenu, setCartItems }) {
   return (
     <Row>
       {displayMenu.map((item) => {
@@ -17,6 +17,7 @@ function Menu({ displayMenu }) {
               image={item.imageName}
               description={item.description}
               menuImages={MenuImages}
+              setCartItems={setCartItems}
             />
           </Col>
         );

@@ -3,7 +3,7 @@ const Users = require("../models/user.model.js");
 
 /* Create a new order, pass in object from cart.*/
 exports.create = function (req, res) {
-  Users.findOne({ user: req.decodedToken.userId }, function (err, user) {
+  Users.findOne({ _id: req.decodedToken.userId }, function (err, user) {
     let newOrder = new Orders({
       orderNumber: req.body.orderNumber,
       user: user,
@@ -15,7 +15,16 @@ exports.create = function (req, res) {
         console.log(err);
         res.status(500).send({ message: "An error occurred" });
       } else {
-        res.send(data);
+        Orders.findOne({ _id: data._id })
+          .populate("items")
+          .exec(function (err, order) {
+            if (err) {
+              console.log(err);
+              res.status(500).send({ message: "An error occurred" });
+            } else {
+              res.send(order);
+            }
+          });
       }
     });
   });

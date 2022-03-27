@@ -55,6 +55,7 @@ app.use(function (req, res, next) {
   try {
     const decoded = jwt.verify(token, process.env.SECRET);
     req.decodedToken = decoded;
+    console.log(decoded);
     next();
   } catch (err) {
     res.status(401).send({ err: "Bad JWT!" });
