@@ -4,6 +4,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/Login.css";
+import GoogleLoginButton from "./GoogleLoginButton";
+import FacebookLoginButton from "./FacebookLoginButton";
 import { FANDOS_API_URL } from "../config/config";
 
 function Login({ setIsLoggedIn, setUserToken, navigate }) {
@@ -79,6 +81,14 @@ function Login({ setIsLoggedIn, setUserToken, navigate }) {
           Login
         </Button>
       </Form>
+      <GoogleLoginButton
+        setUserToken={setUserToken}
+        setIsLoggedIn={setIsLoggedIn}
+      />
+      <FacebookLoginButton
+        setUserToken={setUserToken}
+        setIsLoggedIn={setIsLoggedIn}
+      />
       <div className="py-5">
         <h2>New around here? </h2>
         <Button as={Link} variant="outline-danger" to="/register">

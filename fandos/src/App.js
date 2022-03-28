@@ -61,7 +61,16 @@ function App() {
       />
 
       <Routes>
-        <Route path="/" element={<LandingPage isLoggedIn={isLoggedIn} />} />
+        <Route
+          path="/"
+          element={
+            <LandingPage
+              setUserToken={setUserToken}
+              isLoggedIn={isLoggedIn}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+          }
+        />
         <Route
           path="menu"
           element={

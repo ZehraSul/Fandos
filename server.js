@@ -40,6 +40,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 require("./routes/user/login.js")(app);
+require("./routes/user/google.js")(app);
+require("./routes/user/facebook.js")(app);
 require("./routes/user/register.js")(app);
 
 // Verifying user input of User name and Password from login page
