@@ -52,8 +52,8 @@ function FacebookLoginButton({ setUserToken, setIsLoggedIn, navigate }) {
       <FacebookLogin
         appId="979509362700576"
         autoLoad={false}
-        fields="name,email"
-        scope="public_profile,email"
+        fields="name,email,picture"
+        scope="public_profile,email,user_friends"
         callback={handleLogin}
         render={(renderProps) => (
           <Button variant="primary" onClick={renderProps.onClick}>
