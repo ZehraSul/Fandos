@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha",
-    "start": "nodemon server.js",
+    "start": "node server.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix fandos && npm run build --prefix fandos"
   },
   "keywords": [],
