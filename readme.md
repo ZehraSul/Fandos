@@ -280,6 +280,7 @@ npm start
 To run tests, run the following command
 
 ### Server si
+
 ```bash
   npm run test
 ```
@@ -312,4 +313,4 @@ App uses helmet and contains so third party API calls
 
 ## Demo
 
-ZEHRA
+https://fandos.herokuapp.com/
