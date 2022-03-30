@@ -5,21 +5,30 @@ import { useState } from "react";
 import "../css/Register.css";
 import { FANDOS_API_URL } from "../config/config";
 import { Link, useNavigate } from "react-router-dom";
+import GoogleLoginButton from "./GoogleLoginButton";
+import FacebookLoginButton from "./FacebookLoginButton";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
+// For registering a new user
 function Register({ setIsLoggedIn, setUserToken, navigate, setCartItems }) {
+  // setting intial state
   let [emailAddress, setEmailAddress] = useState("");
   let [password, setPassword] = useState("");
   let [confirmPassword, setConfirmPassword] = useState("");
 
+  // Updating state
   const emailAddressChangedHandler = (e) => setEmailAddress(e.target.value);
   const passwordChangedHandler = (e) => setPassword(e.target.value);
   const confirmPasswordChangedHandler = (e) =>
     setConfirmPassword(e.target.value);
 
+  // registering via email
   const registerHandler = (e) => {
     e.preventDefault();
     if (emailAddress && password && confirmPassword) {
       if (password === confirmPassword) {
+        // if the password and the confirm password are the same make register API call
         fetch(`${FANDOS_API_URL}/register`, {
           method: "POST",
           headers: {
@@ -40,7 +49,7 @@ function Register({ setIsLoggedIn, setUserToken, navigate, setCartItems }) {
               setIsLoggedIn(true);
               createCart(res.token);
             } else {
-              // if either the username o password are incorrect show can error
+              // if either the username or password are incorrect show can error
               alert("Registration Failed!");
               console.log(res);
             }
@@ -57,6 +66,7 @@ function Register({ setIsLoggedIn, setUserToken, navigate, setCartItems }) {
     }
   };
 
+  //creates a cart for each new user, cart is intially empty
   const createCart = (token) => {
     if (token) {
       console.log(token);
@@ -88,8 +98,9 @@ function Register({ setIsLoggedIn, setUserToken, navigate, setCartItems }) {
   };
 
   return (
+    // Form for registering with email address and password or facebook and google
     <div className="register-form">
-      <Form className="border border-danger rounded px-5 py-5">
+      <Form className="border border-danger bg-white rounded px-5 py-5">
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
@@ -118,13 +129,31 @@ function Register({ setIsLoggedIn, setUserToken, navigate, setCartItems }) {
             onChange={confirmPasswordChangedHandler}
           />
         </Form.Group>
-        <Button variant="danger" type="submit" onClick={registerHandler}>
-          Register
-        </Button>
+        <Row>
+          <Col>
+            <Button variant="danger" type="submit" onClick={registerHandler}>
+              Register
+            </Button>
+          </Col>
+          <Col>
+            {/*Google button */}
+            <GoogleLoginButton
+              setUserToken={setUserToken}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+          </Col>
+          <Col>
+            {/*Facebook button */}
+            <FacebookLoginButton
+              setUserToken={setUserToken}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+          </Col>
+        </Row>
       </Form>
       <div className="py-5">
         <h2>Been here before ...</h2>
-        <Button variant="outline-danger" as={Link} to="/login">
+        <Button variant="danger" as={Link} to="/login">
           Login?
         </Button>
       </div>
@@ -132,6 +161,7 @@ function Register({ setIsLoggedIn, setUserToken, navigate, setCartItems }) {
   );
 }
 
+// work around for allowing component to use navigation for routes
 function WithNavigate(props) {
   let navigate = useNavigate();
   return <Register {...props} navigate={navigate} />;

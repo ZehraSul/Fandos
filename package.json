@@ -4,8 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "test": "mocha",
+    "start": "nodemon server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix fandos && npm run build --prefix fandos"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +28,8 @@
     "request": "^2.88.2"
   },
   "devDependencies": {
+    "chai": "^4.3.6",
+    "mocha": "^9.2.2",
     "nodemon": "^2.0.15"
   }
 }

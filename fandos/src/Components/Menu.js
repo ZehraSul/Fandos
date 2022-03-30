@@ -2,21 +2,20 @@ import React from "react";
 import MenuItem from "./MenuItem";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import MenuImages from "./MenuImages";
 
+// Displaying menu with items
 function Menu({ displayMenu, setCartItems }) {
   return (
     <Row>
       {displayMenu.map((item) => {
         return (
-          <Col className="col-auto">
+          <Col className="col-auto" key={item._id}>
             <MenuItem
               id={item._id}
               name={item.name}
               price={item.price}
               image={item.imageName}
               description={item.description}
-              menuImages={MenuImages}
               setCartItems={setCartItems}
             />
           </Col>

@@ -3,17 +3,11 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import "../css/MenuItem.css";
 import { FANDOS_API_URL } from "../config/config";
 
-function MenuItem({
-  id,
-  name,
-  price,
-  image,
-  description,
-  menuImages,
-  setCartItems,
-}) {
+// Single menu item for the basic user
+function MenuItem({ id, name, price, image, description, setCartItems }) {
   const AddToCartHandler = (e) => {
     e.preventDefault();
 
@@ -48,30 +42,29 @@ function MenuItem({
         );
     }
   };
-
   return (
+    // Card displaying menu item with add to cart button
     <div style={{ padding: "50px", marginRight: "auto" }}>
-      <Card style={{ width: "300px" }}>
-        <img variant="top" src={menuImages[image]} />
+      <Card>
+        <img
+          className="MenuItem__Image"
+          variant="top"
+          src={`/images/${image}.jpg`}
+          alt={name}
+        />
         <Card.Body>
           <Card.Title>{name}</Card.Title>
           <Card.Text>{description}</Card.Text>
-          <Card.Text>{id}</Card.Text>
         </Card.Body>
         <Card.Footer>
           <Row>
             <Col>
-              <Button
-                type="submit"
-                style={{ borderRadius: "50px" }}
-                variant="danger"
-                onClick={AddToCartHandler}
-              >
-                +
+              <Button type="submit" variant="danger" onClick={AddToCartHandler}>
+                Add to cart
               </Button>
             </Col>
             <Col>
-              <Card.Text style={{ color: "blue" }}>R{price}</Card.Text>
+              <Card.Text id="MenuItemPrice">R{price}</Card.Text>
             </Col>
           </Row>
         </Card.Footer>

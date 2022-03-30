@@ -2,6 +2,8 @@ import React from "react";
 import { useEffect } from "react";
 import { FANDOS_API_URL } from "../config/config";
 import PrevOrderItem from "../Components/PrevOrderItem";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 function OrderHistory({ prevOrders, setPrevOrders, setUserToken, userToken }) {
   useEffect(() => {
@@ -35,17 +37,23 @@ function OrderHistory({ prevOrders, setPrevOrders, setUserToken, userToken }) {
     }
   }, [userToken]);
   return (
+    // list of previous orders
     <div>
-      <h1>Order History</h1>
-      {prevOrders.map((item) => {
-        return (
-          <PrevOrderItem
-            orderNumber={item.orderNumber}
-            items={item.items}
-            date={item.date}
-          />
-        );
-      })}
+    
+      <h1 style={{ paddingTop: "50px", textAlign: "center" }}>Order History</h1>
+      <Row>
+        {prevOrders.map((item) => {
+          return (
+            <Col>
+              <PrevOrderItem
+                orderNumber={item.orderNumber}
+                items={item.items}
+                date={item.date}
+              />
+            </Col>
+          );
+        })}
+      </Row>
     </div>
   );
 }

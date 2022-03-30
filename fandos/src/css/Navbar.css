@@ -4,4 +4,12 @@
 
 .nav-link {
   color: white;
+  font-weight: 700;
+}
+.nav-link:hover {
+  color: yellow;
+}
+
+.nav-link:focus {
+  color: white;
 }

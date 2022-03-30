@@ -1,4 +1,5 @@
 const Users = require("../models/user.model.js");
+const Cart = require("../models/cart.model.js");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
@@ -7,6 +8,14 @@ dotenv.config();
 
 const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+const validateEmail = (email) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
 
 exports.register = function (req, res) {
   const emailAddress = req.body.emailAddress;
@@ -17,9 +26,15 @@ exports.register = function (req, res) {
     let msg = "Required fields not populated";
     console.log(msg);
     res.status(400).send({ message: msg });
+    return;
   }
 
-  // TODO: Validate email
+  if (!validateEmail(emailAddress)) {
+    let msg = "Invalid email";
+    console.log(msg);
+    res.status(400).send({ message: msg });
+    return;
+  }
 
   Users.findOne({ emailAddress: emailAddress }, function (err, record) {
     // Error handling
@@ -31,43 +46,51 @@ exports.register = function (req, res) {
       let msg = "Email address already in use.";
       console.log(msg);
       res.status(400).send({ message: msg });
-    }
-  });
-
-  if (password !== confirmPassword) {
-    let msg = "Passwords do not match";
-    console.log(msg);
-    res.status(400).send({ message: msg });
-  }
-
-  let newUser = new Users({
-    emailAddress: emailAddress,
-    password: bcrypt.hashSync(password, 10),
-  });
-
-  /* If the operation errors send back an error msg if it succeeds send back a token */
-  newUser.save(function (err, data) {
-    if (err) {
-      console.log(err);
-      res.status(500).send({ message: "An error occurred" });
     } else {
-      let payload = {
-        emailAddress: data.emailAddress,
-        userId: data._id,
-        type: data.type,
-      };
-      // Create token using payload data, secret key and algorithm type
-      const token = jwt.sign(JSON.stringify(payload), process.env.SECRET, {
-        algorithm: "HS256",
+      if (password !== confirmPassword) {
+        let msg = "Passwords do not match";
+        console.log(msg);
+        res.status(400).send({ message: msg });
+        return;
+      }
+
+      let newUser = new Users({
+        emailAddress: emailAddress,
+        password: bcrypt.hashSync(password, 10),
       });
-      // Send back token
-      res.send({ token: token, userType: data.type });
+
+      /* If the operation errors send back an error msg if it succeeds send back a token */
+      newUser.save(function (err, data) {
+        if (err) {
+          console.log(err);
+          res.status(500).send({ message: "An error occurred" });
+        } else {
+          let payload = {
+            emailAddress: data.emailAddress,
+            userId: data._id,
+            type: data.type,
+          };
+          // Create token using payload data, secret key and algorithm type
+          const token = jwt.sign(JSON.stringify(payload), process.env.SECRET, {
+            algorithm: "HS256",
+          });
+          // Send back token
+          res.send({ token: token, userType: data.type });
+        }
+      });
     }
   });
 };
 
 // For users to login by taking in a username and password
 exports.login = function (req, res) {
+  if (!(req.body.emailAddress && req.body.password)) {
+    let msg = "Required fields not populated";
+    console.log(msg);
+    res.status(400).send({ message: msg });
+    return;
+  }
+
   const emailAddress = req.body.emailAddress;
   const password = req.body.password;
 
@@ -99,11 +122,11 @@ exports.login = function (req, res) {
           res.send({ token: token, userType: record.type });
         } else {
           // Error handling
-          res.status(403).send({ message: "Invalid password!" });
+          res.status(401).send({ message: "Invalid password!" });
         }
       });
     } else {
-      res.status(403).send({ message: "Incorrect email address!" });
+      res.status(401).send({ message: "Incorrect email address!" });
     }
   });
 };
@@ -140,21 +163,33 @@ exports.googleLogin = function (req, res) {
                 console.log(err);
                 res.status(500).send({ message: "An error occurred" });
               } else {
-                let payload = {
-                  emailAddress: data.emailAddress,
-                  userId: data._id,
-                  type: data.type,
-                };
-                // Create token using payload data, secret key and algorithm type
-                const token = jwt.sign(
-                  JSON.stringify(payload),
-                  process.env.SECRET,
-                  {
-                    algorithm: "HS256",
+                let newCart = new Cart({
+                  user: data,
+                  items: [],
+                });
+                newCart.save(function (err, cart) {
+                  console.log(cart);
+                  if (err) {
+                    console.log(err);
+                    res.status(500).send({ message: "An error has occurred" });
+                  } else {
+                    let payload = {
+                      emailAddress: data.emailAddress,
+                      userId: data._id,
+                      type: data.type,
+                    };
+                    // Create token using payload data, secret key and algorithm type
+                    const token = jwt.sign(
+                      JSON.stringify(payload),
+                      process.env.SECRET,
+                      {
+                        algorithm: "HS256",
+                      }
+                    );
+                    // Send back token
+                    res.send({ token: token, userType: data.type });
                   }
-                );
-                // Send back token
-                res.send({ token: token, userType: data.type });
+                });
               }
             });
           } else {
@@ -234,21 +269,33 @@ exports.facebookLogin = function (req, res) {
               console.log(err);
               res.status(500).send({ message: "An error occurred" });
             } else {
-              let payload = {
-                emailAddress: data.emailAddress,
-                userId: data._id,
-                type: data.type,
-              };
-              // Create token using payload data, secret key and algorithm type
-              const token = jwt.sign(
-                JSON.stringify(payload),
-                process.env.SECRET,
-                {
-                  algorithm: "HS256",
+              let newCart = new Cart({
+                user: data,
+                items: [],
+              });
+              newCart.save(function (err, cart) {
+                console.log(cart);
+                if (err) {
+                  console.log(err);
+                  res.status(500).send({ message: "An error has occurred" });
+                } else {
+                  let payload = {
+                    emailAddress: data.emailAddress,
+                    userId: data._id,
+                    type: data.type,
+                  };
+                  // Create token using payload data, secret key and algorithm type
+                  const token = jwt.sign(
+                    JSON.stringify(payload),
+                    process.env.SECRET,
+                    {
+                      algorithm: "HS256",
+                    }
+                  );
+                  // Send back token
+                  res.send({ token: token, userType: data.type });
                 }
-              );
-              // Send back token
-              res.send({ token: token, userType: data.type });
+              });
             }
           });
         } else {

@@ -39,6 +39,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+// Routes for logging in
 require("./routes/user/login.js")(app);
 require("./routes/user/google.js")(app);
 require("./routes/user/facebook.js")(app);
@@ -49,7 +50,7 @@ app.use(function (req, res, next) {
   const auth = req.headers["authorization"];
 
   if (!auth) {
-    res.status(401).send({ err: "Missing Auth Header!" });
+    res.status(403).send({ message: "Missing Auth Header!" });
     return;
   }
 
@@ -57,7 +58,7 @@ app.use(function (req, res, next) {
   try {
     const decoded = jwt.verify(token, process.env.SECRET);
     req.decodedToken = decoded;
-    console.log(decoded);
+    // console.log(decoded);
     next();
   } catch (err) {
     res.status(401).send({ err: "Bad JWT!" });
