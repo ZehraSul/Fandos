@@ -5,6 +5,8 @@ import { FANDOS_API_URL } from "../config/config";
 import Button from "react-bootstrap/Button";
 
 function GoogleLoginButton({ setUserToken, setIsLoggedIn, navigate }) {
+  const googleClientId =
+    "548979504562-gccbcuh6pj3ua9n87l70q90b6gkkn22n.apps.googleusercontent.com";
   const handleLogin = (googleData) => {
     fetch(`${FANDOS_API_URL}/login/google`, {
       method: "POST",
@@ -46,10 +48,7 @@ function GoogleLoginButton({ setUserToken, setIsLoggedIn, navigate }) {
   return (
     <div>
       <GoogleLogin
-        clientId="
-          548979504562 -
-          gccbcuh6pj3ua9n87l70q90b6gkkn22n.apps.googleusercontent.com
-        "
+        clientId={googleClientId}
         onSuccess={handleLogin}
         onFailure={handleLogin}
         cookiePolicy={"single_host_origin"}
