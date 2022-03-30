@@ -46,7 +46,7 @@ require("./routes/user/facebook.js")(app);
 require("./routes/user/register.js")(app);
 
 // Verifying user input of User name and Password from login page
-app.use(function (req, res, next) {
+app.use("/api", function (req, res, next) {
   const auth = req.headers["authorization"];
 
   if (!auth) {

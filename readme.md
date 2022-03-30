@@ -2,42 +2,42 @@
 
 ## Table of contents
 
-**[System Architecture Overview](#_34jcbxtppsl8) 2**
-[MongoDB:](#_gt24dbmeqjx9) 2
-[Express/NodeJS](#_qw17cdc9lewf) 2
-[React](#_epa1h7ytetwo) 2
+**[System Architecture Overview](#system-architecture-overview) 2**
+[MongoDB:](#mongodb) 2
+[Express/NodeJS](#express-nodejs) 2
+[React](#react) 2
 
-**[Deployment](#_fo8a1bsne8tv) 3**
-[Speed:](#_cem4hpef858n) 3
-[Agility:](#_y2jj9nyoefm) 3
-[Scalability:](#_b8fdls21wi8j) 3
+**[Deployment](#deployment) 3**
+[Speed:](#speed) 3
+[Agility:](#agility) 3
+[Scalability:](#scalability) 3
 
-**[React Framework](#_9lr1hkx3491s) 3**
-[Speed:](#_8eufmayosm) 3
-[Deployment:](#_lpexatkgd5yh) 3
-[SEO:](#_k1xqrers6mo) 3
+**[React Framework](#react-framework) 3**
+[Speed:](#speed) 3
+[Deployment:](#deployment) 3
+[SEO:](#seo) 3
 
-**[Styling](#_e0irbdyt3vwd) 4**
-[Bootstrap:](#_bjzm7bng61fv) 4
-[CSS:](#_spto4d9jrtbd) 4
+**[Styling](#styling) 4**
+[Bootstrap:](#bootstrap) 4
+[CSS:](#css) 4
 
-**[System Requirements Specification](#_c68ig0xky167) 5**
-[Overview](#_6sy0vmpig895) 5
-[Competitors](#_w69rflrvtgn5) 5
+**[System Requirements Specification](#system-requirements-specification) 5**
+[Overview](#overview) 5
+[Competitors](#competitors) 5
 
-**[Functional requirements](#_p44fjp7yfipv) 5**
-[User can:](#_2hvl3vv176kr) 5
-[Admin user can:](#_h41nu2myb6an) 6
+**[Functional requirements](#functional-requirements) 5**
+[User can:](#user-can) 5
+[Admin user can:](#admin-user-can) 5
 
-**[Non functional requirements](#_137ae6jorr74) 6**
-[Scalability:](#_gs545wo2blor) 6
-[Reliability:](#_qjzkg6mblglf) 6
-[Performance:](#_33u9pvwqcyw6) 6
-[Security:](#_6krnohu0qsmx) 6
-[Accessibility:](#_ldvbr4f38uzz) 6
-[Compatibility:](#_2qx4w5momdff) 6
+**[Non functional requirements](#non-functional-requirements) 6**
+[Scalability:](#scalability) 6
+[Reliability:](#reliability) 6
+[Performance:](#performance) 6
+[Security:](#security) 6
+[Accessibility:](#accessibility) 6
+[Compatibility:](#compatibility) 6
 
-**[User Stories](#_g844u01plo2v) 7**
+**[User Stories](#user-stories) 7**
 
 ## System Architecture Overview
 
@@ -51,7 +51,7 @@ The app will be developed using the MERN stack.
 - Easy to scale out
 - Schemaless which will be necessary for our evolving needs
 
-### Express/NodeJS
+### Express-NodeJS
 
 - Provides useful features for web and mobile applications
 - Short development time
