@@ -46,7 +46,10 @@ function GoogleLoginButton({ setUserToken, setIsLoggedIn, navigate }) {
   return (
     <div>
       <GoogleLogin
-        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+        clientId="
+          548979504562 -
+          gccbcuh6pj3ua9n87l70q90b6gkkn22n.apps.googleusercontent.com
+        "
         onSuccess={handleLogin}
         onFailure={handleLogin}
         cookiePolicy={"single_host_origin"}

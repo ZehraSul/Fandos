@@ -50,7 +50,7 @@ function FacebookLoginButton({ setUserToken, setIsLoggedIn, navigate }) {
     <div>
       {/*Creates facebook button */}
       <FacebookLogin
-        appId={process.env.REACT_APP_FACEBOOK_APP_ID}
+        appId="979509362700576"
         autoLoad={false}
         fields="name,email"
         scope="public_profile,email"

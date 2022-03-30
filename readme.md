@@ -252,8 +252,8 @@ The process from start to end should be no more than "number of items ordered" +
 Install fandos with npm
 
 ```bash
-  cd project folder
-  npm install
+cd project folder
+npm install
 ```
 
 ```bash
@@ -266,8 +266,8 @@ npm install
 To run this project
 
 ```bash
- cd project folder
- npm  start
+cd project folder
+npm  start
 ```
 
 ```bash
@@ -282,7 +282,7 @@ To run tests, run the following command
 ### Server si
 
 ```bash
-  npm run test
+npm run test
 ```
 
 ## Deployment
@@ -300,12 +300,6 @@ To run this project, you will need to add the following environment variables to
 `SECRET` - use own "string"
 
 `GOOGLE_CLIENT_ID` - Use own client GOOGLE_CLIENT_ID
-
-### Client side
-
-`REACT_APP_GOOGLE_CLIENT_ID` - Add own google client ID
-
-`REACT_APP_FACEBOOK_CLIENT_ID` - Add own facebook client ID
 
 ## Security
 
