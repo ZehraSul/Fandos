@@ -22,7 +22,7 @@ app.use(
     crossOriginEmbedderPolicy: false,
     contentSecurityPolicy: {
       directives: {
-        "script-src-elem": [
+        "script-src": [
           "'self'",
           "https://connect.facebook.net",
           "https://www.facebook.com",
