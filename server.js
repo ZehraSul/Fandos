@@ -38,6 +38,12 @@ app.use(
         ],
         "img-src": ["'self'", "data:", "https://web.facebook.com"],
         "frame-ancestors": ["'self'", "https://www.facebook.com"],
+        "default-src": [
+          "'self'",
+          "https://connect.facebook.net",
+          "https://www.facebook.com",
+          "https://apis.google.com",
+        ],
       },
     },
   })
