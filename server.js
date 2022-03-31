@@ -18,7 +18,28 @@ dotenv.config();
 // Security
 app.use(
   helmet({
-    contentSecurityPolicy: false,
+    crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
+    crossOriginEmbedderPolicy: false,
+    contentSecurityPolicy: {
+      directives: {
+        "script-src-elem": [
+          "'self'",
+          "https://connect.facebook.net",
+          "https://www.facebook.com",
+          "https://apis.google.com",
+        ],
+        "frame-src": ["'self'", "https://accounts.google.com"],
+        "connect-src": [
+          "'self'",
+          "https://www.facebook.com",
+          "https://web.facebook.com",
+          "https://z-p3-graph.facebook.com",
+          "https://graph.facebook.com",
+        ],
+        "img-src": ["'self'", "data:", "https://web.facebook.com"],
+        "frame-ancestors": ["'self'", "https://www.facebook.com"],
+      },
+    },
   })
 );
 
