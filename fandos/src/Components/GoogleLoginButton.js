@@ -8,6 +8,7 @@ function GoogleLoginButton({ setUserToken, setIsLoggedIn, navigate }) {
   const googleClientId =
     "548979504562-gccbcuh6pj3ua9n87l70q90b6gkkn22n.apps.googleusercontent.com";
   const handleLogin = (googleData) => {
+    console.log(googleData);
     fetch(`${FANDOS_API_URL}/login/google`, {
       method: "POST",
       headers: {

@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 // Login with Facebook
 function FacebookLoginButton({ setUserToken, setIsLoggedIn, navigate }) {
   const handleLogin = (response) => {
+    console.log(response);
     fetch(`${FANDOS_API_URL}/login/facebook`, {
       method: "POST",
       headers: {
