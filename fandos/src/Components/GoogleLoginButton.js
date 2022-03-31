@@ -20,6 +20,7 @@ function GoogleLoginButton({ setUserToken, setIsLoggedIn, navigate }) {
     })
       .then(
         (res) => {
+          console.log(res);
           return res.json();
         },
         (err) => {
